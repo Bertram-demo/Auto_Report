@@ -1,0 +1,36 @@
+name: 学生助理考勤
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '20 16 * * *'
+
+jobs:
+  attendance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Install Chrome and ChromeDriver
+        run: |
+        sudo apt-get install libxss1 libappindicator1 libindicator7
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome*.deb
+        sudo apt-get install -f
+        sudo apt-get install xvfb
+        sudo apt-get install unzip
+        wget -N http://chromedriver.storage.googleapis.com/2.26/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        sudo mv -f chromedriver /usr/local/share/chromedriver
+        sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+        sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+      - name: Attendance
+        run: python test.py ${{ secrets.USERNAME }} ${{ secrets.PASSWORD }}
