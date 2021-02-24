@@ -19,8 +19,9 @@ try:
     button = browser.find_element_by_id('loginBtn')
     button.click()
     browser.get('https://yqfk.dgut.edu.cn')
-    print(button.text)
-    print(browser.page_source)
+    result = browser.find_element_by_class_name('remind___fRE9P')
+    print(result.text)
+    # print(browser.page_source)
     
     browser.close()
 
