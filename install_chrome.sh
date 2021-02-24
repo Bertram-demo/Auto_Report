@@ -10,7 +10,7 @@ sudo apt-get install xvfb
 
 sudo apt-get install unzip
 
-wget -N http://chromedriver.storage.googleapis.com/2.26/chromedriver_linux64.zip
+wget -N http://npm.taobao.org/mirrors/chromedriver/88.0.4324.27/chromedriver_linux64.zip
 
 unzip chromedriver_linux64.zip
 
