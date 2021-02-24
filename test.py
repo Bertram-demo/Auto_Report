@@ -1,15 +1,15 @@
 from selenium import webdriver
 import time
 import sys
-from pyvirtualdisplay import Display
+# from pyvirtualdisplay import Display
 
 
 try:
     username = sys.argv[1]
     password = sys.argv[2]
 
-    display = Display(visible=0, size=(800, 800))  
-    display.start()
+    # display = Display(visible=0, size=(800, 800))  
+    # display.start()
     browser = webdriver.Chrome()
     browser.get('https://yqfk.dgut.edu.cn')
     User = browser.find_element_by_id('username')
@@ -19,6 +19,8 @@ try:
     button = browser.find_element_by_id('loginBtn')
     button.click()
     browser.get('https://yqfk.dgut.edu.cn')
+    # result = browser.find_element_by_class_name('remind___fRE9P')
+    # print(result.text)
     print(browser.page_source)
     
     browser.close()
