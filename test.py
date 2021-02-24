@@ -14,7 +14,6 @@ try:
     display = Display(visible=0, size=(800, 800))  
     display.start()
     browser = webdriver.Chrome()
-    # browser.get('https://cas.dgut.edu.cn/home/Oauth/getToken/appid/illnessProtectionHome/state/home.html')
     browser.get('https://yqfk.dgut.edu.cn')
     User = browser.find_element_by_id('username')
     User.send_keys(username)
@@ -22,10 +21,8 @@ try:
     Pwd.send_keys(password)
     button = browser.find_element_by_id('loginBtn')
     button.click()
-    # browser.implicitly_wait(20)
-    wait = WebDriverWait(browser, 60)
+    wait = WebDriverWait(browser, 120)
     result =  wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'remind___fRE9P')))
-    # print(browser.page_source)
     if result[0].text == "":
         time.sleep(1)
         result =  wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'remind___fRE9P')))
@@ -35,14 +32,19 @@ try:
     a = [i.text for i in result]
     # print(a)
     if "您今日尚未打卡" in a:
-        button.click()
-        print("已提交")
-    else:
-        print("已打卡")
+        if button:
+            button.click()
+            print("已提交")
+        else:
+            print("提交失败")
+        browser.get('https://yqfk.dgut.edu.cn')
+        result =  wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'remind___fRE9P')))
     
 
 except Exception as e:
     print(e)
-    
+
+
 finally:
+    print(result[0].text)
     browser.close()
