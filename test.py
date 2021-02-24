@@ -22,7 +22,7 @@ try:
     button = browser.find_element_by_id('loginBtn')
     button.click()
     browser.get('https://yqfk.dgut.edu.cn')
-    wait = WebDriverWait(browser, 300)
+    wait = WebDriverWait(browser, 600)
     result = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'remind___fRE9P')))
     button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '.am-button-primary')))
     print(result.text)
