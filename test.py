@@ -17,7 +17,7 @@ try:
     browser = webdriver.Chrome()
     browser.get('https://yqfk.dgut.edu.cn')
     # browser.implicitly_wait(10)
-    wait = WebDriverWait(browser, 100)
+    
     # User = wait.until(EC.presence_of_element_located((By.ID, 'username')))
     # Pwd = wait.until(EC.presence_of_element_located((By.ID, 'casPassword')))
     # button = wait.until(EC.element_to_be_clickable((By.ID, 'loginBtn')))
@@ -30,7 +30,7 @@ try:
     if not button:
         raise Exception("找不到登录按钮")
     button.click()
-
+    wait = WebDriverWait(browser, 60)
     # result = browser.find_elements_by_class_name('remind___fRE9P')
     result = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.remind___fRE9P')))
     # if not result[0].text:
@@ -55,9 +55,9 @@ try:
         # print(result[0].text)
 
 except Exception as e:
+    priint("error")
     print(e)
 
 
 finally:
-    if browser:
-        browser.close()
+    browser.close()
