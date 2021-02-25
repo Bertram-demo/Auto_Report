@@ -1,4 +1,4 @@
-from selenium import webdriver
+from selenium import webdriver, common
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,53 +11,45 @@ try:
     username = sys.argv[1]
     password = sys.argv[2]
 
+
     # 登录
-    display = Display(visible=0, size=(800, 800))  
-    display.start()
+    # display = Display(visible=0, size=(800, 800))  
+    # display.start()
     browser = webdriver.Chrome()
     browser.get('https://yqfk.dgut.edu.cn')
-    # browser.implicitly_wait(10)
-    
-    # User = wait.until(EC.presence_of_element_located((By.ID, 'username')))
-    # Pwd = wait.until(EC.presence_of_element_located((By.ID, 'casPassword')))
-    # button = wait.until(EC.element_to_be_clickable((By.ID, 'loginBtn')))
-    User = browser.find_element_by_id('username')
-    Pwd = browser.find_element_by_id('casPassword')
-    button = browser.find_element_by_id('loginBtn')
-    
-    User.send_keys(username)
-    Pwd.send_keys(password)
-    if not button:
-        raise Exception("找不到登录按钮")
-    button.click()
-    wait = WebDriverWait(browser, 60)
-    # result = browser.find_elements_by_class_name('remind___fRE9P')
+    user = browser.find_element_by_id('username')
+    pwd = browser.find_element_by_id('casPassword')
+    login = browser.find_element_by_id('loginBtn')
+    user.send_keys(username)
+    pwd.send_keys(password)
+    if not login:
+        raise ValueError("找不到登录按钮")
+    login.click()
+
+    # 点击提交    
+    wait = WebDriverWait(browser, 30)
+    submit = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '.am-button-primary')))
+    if not submit:
+        raise ValueError("找不到提交按钮")
+    submit.click()
+
+except IndexError:
+    print("请完整输入账号和密码（核对是否设置了Secrets）")
+
+except ValueError as e:
+    print(f"error:{e}")
+
+except common.exceptions.TimeoutException:
     result = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.remind___fRE9P')))
-    # if not result[0].text:
-    #     time.sleep(1)
-        # result = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.remind___fRE9P')))
-        # result = browser.find_elements_by_class_name('remind___fRE9P')
-    if not result[0].text:
-        raise Exception("可能是网络很差，或者服务端有问题")
-    button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '.am-button-primary')))
-    # button = browser.find_elements_by_class_name('am-button-primary')
-    for i in result:
-        print(i.text)
-    # print(result[0].text)
-    # if "您今日尚未打卡" in [i.text for i in result]:
-    #     if button:
-    #         button.click()
-    #         print("已提交")
-    #     else:
-    #         print("提交失败，没有找到提交按钮")
-        # browser.get('https://yqfk.dgut.edu.cn')
-        # result =  wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'remind___fRE9P')))
-        # print(result[0].text)
+    if "您已连续打卡" in result[0].text:
+        print(f"今日已提交，{result[0].text}")
+    else:
+        print("请求超时，原因可能是服务器有问题无法加载成功")
+    
 
-except Exception as e:
-    priint("error")
-    print(e)
-
+# except:
+#     print("服务器无法响应")
 
 finally:
-    browser.close()
+    if 'browser' in dir():
+        browser.close()
