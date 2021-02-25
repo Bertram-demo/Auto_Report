@@ -13,8 +13,8 @@ try:
 
 
     # 登录
-    # display = Display(visible=0, size=(800, 800))  
-    # display.start()
+    display = Display(visible=0, size=(800, 800))  
+    display.start()
     browser = webdriver.Chrome()
     browser.get('https://yqfk.dgut.edu.cn')
     user = browser.find_element_by_id('username')
