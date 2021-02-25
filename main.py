@@ -79,6 +79,9 @@ if __name__ == '__main__':
             now = utc_local(datetime.datetime.utcnow())
             if now.hour == 0 and now.minute >= 20:
                 break
+            if 0 < now.hour < 23:
+                print(f"当前时间是{now.hour}:{now.minute}，没有打卡计划")
+                exit()
 
         # 程序启动：当打卡成功、已打过卡、密码错误或服务器发生未知错误时退出
         print("Script start...")
