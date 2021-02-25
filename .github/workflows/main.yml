@@ -22,4 +22,4 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
       - name: Attendance
-        run: python test.py ${{ secrets.USERNAME }} ${{ secrets.PASSWORD }}
+        run: python main.py ${{ secrets.USERNAME }} ${{ secrets.PASSWORD }}
