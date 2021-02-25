@@ -87,7 +87,7 @@ if __name__ == '__main__':
         print("Script start...")
         print("-"*20)
         count = 1
-        while count < 10:
+        while count <= 10:
             print(f"第{count}次尝试打卡...")
             result = report(username, password)
             print(result['message'])
@@ -97,10 +97,8 @@ if __name__ == '__main__':
             time.sleep(60*10)
         print("-"*20)
         print("Script end...")
-
+        if count > 10:
+            raise Exception
 
     except IndexError:
         print("请完整输入账号和密码（核对是否设置了Secrets）")
-    
-    except:
-        print("未知错误，可能是服务器响应失败")
